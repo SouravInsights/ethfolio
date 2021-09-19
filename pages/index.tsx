@@ -21,14 +21,33 @@ const Home: NextPage = () => {
   };
   
   return (
-    <Stack direction='column' justify='center' align='center' py='20' px='26' spacing={12}>
-      <Heading fontSize='6xl' fontWeight='extrabold' color='blackAlpha.900' w='4xl' textAlign='center'>
-        Let the world know what you do <Text as='s'>online</Text> on-chain!
+    <Stack 
+      direction='column'
+      justify='center'
+      align='center' 
+      py='20' 
+      px={['4', '8', '10', '14', '26']} 
+      spacing={8}
+      
+    >
+      <Image 
+        src='https://res.cloudinary.com/emishalabs/image/upload/v1632000476/ethfolio/Ethereum_perspective_matte_sy4gxg.png'
+        alt='ethfolio-logo'
+        w='xs'
+      />
+      <Heading 
+        fontSize={['5xl', '5xl', '5xl', '6xl', '6xl' ]}
+        fontWeight='extrabold' 
+        color='blackAlpha.900' 
+        w={['sm', 'md', '2xl', '3xl', '4xl' ]}
+        textAlign='center'
+      >
+        Let the world know what you do <Text as='s' color='blackAlpha.800'>online</Text> on-chain!
       </Heading>
-      <Stack as='form' onSubmit={handleSubmit} direction='column' spacing='4'>
+      <Stack direction='column' spacing='4' px='6'>
         <Input
           py={8}
-          w='6xl'
+          w={['sm', 'md', '2xl', '3xl', '4xl']}
           bg='white'
           borderRadius='2xl'
           textAlign='center'
@@ -42,15 +61,20 @@ const Home: NextPage = () => {
             setAddress(e.target.value);
           }}
         />
-        <Button py={8} borderRadius='2xl' bg='#8299F8' _focus={{ bg: '#6481f9' }} _hover={{ bg: '#6481f9' }} color='white' fontSize='lg' fontWeight='bold'>
+        <Button 
+          py={8} 
+          borderRadius='2xl' 
+          bg='#8299F8' 
+          _focus={{ bg: '#6481f9' }} 
+          _hover={{ bg: '#6481f9' }} 
+          color='white' 
+          fontSize='lg' 
+          fontWeight='bold'
+          onClick={handleSubmit}
+        >
           Let's go!
         </Button>
       </Stack>
-      <Image 
-        src='https://res.cloudinary.com/emishalabs/image/upload/v1632000476/ethfolio/Ethereum_perspective_matte_sy4gxg.png'
-        alt='ethfolio-logo'
-        w='xs'
-      />
     </Stack>
   )
 }

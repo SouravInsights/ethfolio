@@ -8,12 +8,6 @@ const GlobalStyle = () => {
     <Global
       styles={css`
         body {
-          background: #ffcb1e;
-        }
-        #__next {
-          display: flex;
-          flex-direction: column;
-          min-height: 100vh;
           background: #F5F7FA;
         }
       `}
