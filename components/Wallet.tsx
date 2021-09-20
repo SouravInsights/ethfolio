@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import Head from 'next/head'
 import { ethers } from 'ethers';
 import { getERC20Tokens } from '../utils/getTokens'
-import { Flex, Box, Text } from '@chakra-ui/react'
-import Head from 'next/head'
+import { Flex, Box, Text, Heading } from '@chakra-ui/react'
+import TokenList from './Token/TokenList';
 
 const Wallet: React.FC = ({ walletParam }: any) => {
   const [walletId, setWalletId] = useState<string>("");
@@ -18,7 +19,7 @@ const Wallet: React.FC = ({ walletParam }: any) => {
         1,
         process.env.INFURA_PROJECT_ID
       );
-      if (walletParam.length === 42) {
+      if (walletParam?.length === 42) {
         setWalletId(walletParam);
         addressParam = walletParam;
         const ensAddr = await provider.lookupAddress(addressParam);
@@ -33,11 +34,8 @@ const Wallet: React.FC = ({ walletParam }: any) => {
     getWeb3();
   }, [walletParam]);
 
-  console.log('walletId:', walletId);
-
   useEffect(() => {
     const getERC20s = async (wId: string) => {
-      console.log('wId:', wId);
       const [eth, tokens] = await getERC20Tokens(wId);
       setEthPrice(eth.price.rate);
       setEthBalance(Number(eth.balance).toFixed(5).toString());
@@ -50,19 +48,19 @@ const Wallet: React.FC = ({ walletParam }: any) => {
 
 
   return (
-    <Box>
+    <Box py='36'>
       <Head>
         <title>{ensAddress || "ethfolio"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="twitter:title" content={ensAddress || "ethfolio"} />
         <meta property="og:title" content={ensAddress || "ethfolio"} />
       </Head>
-      <Flex py={24} px='24' justify='center' align='center' direction='column'>
+      <Flex py={6} px='24' justify='center' align='center' direction='column'>
         <Text fontSize='4xl' fontWeight='bold'>
-          Sorry, work is still in progress. 
+          Work is still in progress. 
         </Text>
         <Text fontSize='2xl' fontWeight='medium' align='center'>
-          But the ethereum balance of&nbsp;
+          The ethereum balance of&nbsp;
           <Text as='span' color='blackAlpha.700'>{ensAddress}</Text>
           &nbsp;is <Text as='span' color='blackAlpha.700'>{ethBalance}</Text>.
         </Text>
@@ -71,7 +69,12 @@ const Wallet: React.FC = ({ walletParam }: any) => {
           <Text as='span' color='blackAlpha.700'>{ethPrice}</Text> usd.
         </Text>
       </Flex>
-      {console.log('tokens:', tokens)}
+      <Heading  fontSize='5xl' fontWeight='extrabold' textAlign='center' py='6'>Tokens</Heading>
+      <TokenList
+        tokens={tokens}
+        ethBalance={ethBalance}
+        ethPrice={ethPrice}
+      />
     </Box>
   )
 } 

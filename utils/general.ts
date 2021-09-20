@@ -7,3 +7,8 @@ export const truncateAddress = (addr: string | undefined) => {
   }
   return addr;
 };
+
+export const dollarFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
