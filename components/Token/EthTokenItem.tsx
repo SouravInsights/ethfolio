@@ -9,7 +9,7 @@ interface EthTokenProps {
 
 const EthTokenIcon = () => (
   <Flex w='40px' h='40px' borderRadius='50%' mr='8px' boxShadow='rgba(0, 0, 0, 0.1) 0px 5px 10px'>
-    <Image w='40px' h='40px' borderRadius='50%' src='https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png' alt='Token Icon' w='40px' h='40px' />
+    <Image w='40px' h='40px' borderRadius='50%' src='https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/info/logo.png' alt='Token Icon' />
   </Flex>
 )
 
