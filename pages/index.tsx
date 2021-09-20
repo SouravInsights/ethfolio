@@ -44,10 +44,10 @@ const Home: NextPage = () => {
       >
         Let the world know what you do <Text as='s' color='blackAlpha.800'>online</Text> on-chain!
       </Heading>
-      <Stack direction='column' spacing='4' px='6'>
+      <Stack direction='column' spacing='4' px='4'>
         <Input
           py={8}
-          w={['sm', 'md', '2xl', '3xl', '4xl']}
+          w={['xs', 'md', '2xl', '3xl', '4xl']}
           bg='white'
           borderRadius='2xl'
           textAlign='center'
