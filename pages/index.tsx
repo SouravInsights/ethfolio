@@ -72,7 +72,7 @@ const Home: NextPage = () => {
           fontWeight='bold'
           onClick={handleSubmit}
         >
-          Let's go!
+          Lets go!
         </Button>
       </Stack>
     </Stack>
