@@ -14,6 +14,7 @@ interface WalletHeaderItemProps {
 
 const WalletHeaderItem = ({ label, value }: WalletHeaderItemProps) => (
   <Stack 
+    bg='white'
     alignItems='center'
     boxShadow='rgba(0, 0, 0, 0.1) 0px 5px 10px'
     padding='10px 20px 15px 20px'
@@ -35,7 +36,7 @@ const WalletHeader = ({
   ensAddress,
   ethBalance,
 }: WalletHeaderProps) => (
-  <HStack spacing='4'>
+  <Stack spacing='8' alignItems='center' justify='center' direction={['column', 'column', 'row', 'row', 'row']}>
     {console.log('walletId:', walletId)}
     <WalletHeaderItem 
       label='ADDRESS'
@@ -49,7 +50,7 @@ const WalletHeader = ({
       label='BALANCE'
       value={`${ethBalance} ETH`}
     />
-  </HStack>
+  </Stack>
 )
 
 interface WalletProps {
