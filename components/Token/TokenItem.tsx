@@ -1,5 +1,6 @@
 import React from "react";
-import { Flex, Stack, VStack, Image, Text } from '@chakra-ui/react'
+import { Flex, Stack, VStack, Image, Text } from '@chakra-ui/react';
+import { valueFormatter, dollarFormatter } from '../../utils/general';
 
 interface TokenProps {
   address?: string,
@@ -24,6 +25,12 @@ const TokenItem = ({ token }: TokenProps) => {
     balance,
   } = token;
 
+  const tokenAmount = valueFormatter(balance / Math.pow(10, decimals), 3);
+  const tokenPrice = price.rate;
+  const tokenTotalValue = dollarFormatter.format(tokenAmount * tokenPrice);
+  const openTokenLink = () => {
+    window.open(`https://info.uniswap.org/token/${address}`, "_blank");
+  };
   return (
     <Flex 
       alignItems='center' 
@@ -35,6 +42,7 @@ const TokenItem = ({ token }: TokenProps) => {
       cursor='pointer'
       m='5px'
       textAlign='left'
+      onClick={openTokenLink}
     >
       <Stack direction='row' alignItems='center'>
         <TokenIcon address={address} />
@@ -44,8 +52,8 @@ const TokenItem = ({ token }: TokenProps) => {
         </Flex>
       </Stack>
       <Flex direction='column' alignItems='flex-end'>
-        <Text fontSize='xl' fontWeight='semibold' color='blackAlpha.900'>amount</Text>
-        <Text fontSize='xl' fontWeight='normal' color='blackAlpha.900'>value</Text>
+        <Text fontSize='xl' fontWeight='semibold' color='blackAlpha.900'>{tokenAmount}</Text>
+        <Text fontSize='xl' fontWeight='normal' color='blackAlpha.900'>{tokenTotalValue}</Text>
       </Flex>
     </Flex>
   )

@@ -16,7 +16,6 @@ const TokenList = ({ tokens, ethBalance, ethPrice }: TokenListProps) => (
     borderRadius='10px'
     boxShadow='rgba(0, 0, 0, 0.1) 0px 5px 10px'
     maxW='600px'
-    minW='600px'
     m='auto'
     bg='white'
   >

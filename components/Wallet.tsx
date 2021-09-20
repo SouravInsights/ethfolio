@@ -2,8 +2,55 @@ import React, { useEffect, useState } from 'react';
 import Head from 'next/head'
 import { ethers } from 'ethers';
 import { getERC20Tokens } from '../utils/getTokens'
-import { Flex, Box, Text, Heading } from '@chakra-ui/react'
+import { Stack, HStack, Box, Image, Heading, Text } from '@chakra-ui/react'
 import TokenList from './Token/TokenList';
+import { truncateAddress } from '../utils/general';
+import router from 'next/router';
+
+interface WalletHeaderItemProps {
+  label: string;
+  value: string;
+}
+
+const WalletHeaderItem = ({ label, value }: WalletHeaderItemProps) => (
+  <Stack 
+    alignItems='center'
+    boxShadow='rgba(0, 0, 0, 0.1) 0px 5px 10px'
+    padding='10px 20px 15px 20px'
+    borderRadius='10px'
+  >
+    <Text p='2' bg='blackAlpha.100' borderRadius='8px' fontSize='sm' fontWeight='bold' color='blackAlpha.600'>{label}</Text>
+    <Text fontSize='md' fontWeight='bold' color='blackAlpha.700'>{value}</Text>
+  </Stack>
+)
+
+interface WalletHeaderProps {
+  walletId: string;
+  ensAddress: string | undefined;
+  ethBalance: string;
+}
+
+const WalletHeader = ({
+  walletId,
+  ensAddress,
+  ethBalance,
+}: WalletHeaderProps) => (
+  <HStack spacing='4'>
+    {console.log('walletId:', walletId)}
+    <WalletHeaderItem 
+      label='ADDRESS'
+      value={truncateAddress(walletId)}
+    />
+     <WalletHeaderItem 
+      label='ENS'
+      value={ensAddress ? ensAddress : "—"}
+    />
+     <WalletHeaderItem 
+      label='BALANCE'
+      value={`${ethBalance} ETH`}
+    />
+  </HStack>
+)
 
 interface WalletProps {
   walletParam: any;
@@ -52,28 +99,30 @@ const Wallet = ({ walletParam }: WalletProps) => {
 
 
   return (
-    <Box py='36'>
+    <Box py='24'>
       <Head>
         <title>{ensAddress || "ethfolio"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="twitter:title" content={ensAddress || "ethfolio"} />
         <meta property="og:title" content={ensAddress || "ethfolio"} />
       </Head>
-      <Flex py={6} px='24' justify='center' align='center' direction='column'>
-        <Text fontSize='4xl' fontWeight='bold'>
-          Work is still in progress. 
-        </Text>
-        <Text fontSize='2xl' fontWeight='medium' align='center'>
-          The ethereum balance of&nbsp;
-          <Text as='span' color='blackAlpha.700'>{ensAddress}</Text>
-          &nbsp;is <Text as='span' color='blackAlpha.700'>{ethBalance}</Text>.
-        </Text>
-        <Text fontSize='2xl' fontWeight='medium' align='center'>
-          The current price of eth is&nbsp; 
-          <Text as='span' color='blackAlpha.700'>{ethPrice}</Text> usd.
-        </Text>
-      </Flex>
-      <Heading  fontSize='5xl' fontWeight='extrabold' textAlign='center' py='6'>Tokens</Heading>
+      <Stack 
+        direction='column'
+        justify='center'
+        align='center' 
+        px={['4', '8', '10', '14', '26']} 
+        spacing={8}
+      >
+        <Image 
+          src='https://res.cloudinary.com/emishalabs/image/upload/v1632000476/ethfolio/Ethereum_perspective_matte_sy4gxg.png'
+          alt='ethfolio-logo'
+          w='xs'
+          onClick={() => router.push('./')}
+          cursor='pointer'
+        />
+        <WalletHeader walletId={walletId} ethBalance={ethBalance} ensAddress={ensAddress} />
+      </Stack> 
+      <Heading fontSize='5xl' fontWeight='extrabold' textAlign='center' py='8'>Tokens</Heading>
       <TokenList
         tokens={tokens}
         ethBalance={ethBalance}

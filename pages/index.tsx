@@ -3,8 +3,8 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import NextImage from 'next/image'
 import { useRouter } from 'next/router'
-import { Stack, Flex, Heading, Text, Input, Button, Image } from '@chakra-ui/react'
-import { truncateAddress } from '../utils/general'
+import { Stack, Heading, Text, Input, Button, Image } from '@chakra-ui/react'
+import { cleanAddress } from '../utils/general'
 
 const Home: NextPage = () => {
   const router = useRouter()
@@ -13,9 +13,9 @@ const Home: NextPage = () => {
   const handleSubmit = (event: any) => {
     event.preventDefault();
     if (address) {
-      const trunkatedAddress = truncateAddress(address);
-      if (trunkatedAddress) {
-        router.push(`/${trunkatedAddress}`);
+      const cleanedAddress = cleanAddress(address);
+      if (cleanedAddress) {
+        router.push(`/${cleanedAddress}`);
       }
     }
   };

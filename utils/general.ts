@@ -1,4 +1,4 @@
-export const truncateAddress = (addr: string | undefined) => {
+export const cleanAddress = (addr: string | undefined) => {
   if (!addr) {
     return null;
   }
@@ -8,7 +8,14 @@ export const truncateAddress = (addr: string | undefined) => {
   return addr;
 };
 
+export const truncateAddress = (addr: string): string => `${addr?.slice(0, 6)}...${addr.slice(-4)}`;
+
 export const dollarFormatter = new Intl.NumberFormat("en-US", {
   style: "currency",
   currency: "USD",
 });
+
+export const valueFormatter = (num: number, decimalPlaces: number) =>
+  Number(
+    Math.round(Number(num + "e" + decimalPlaces)) + "e" + decimalPlaces * -1
+  );
