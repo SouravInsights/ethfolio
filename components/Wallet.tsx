@@ -5,7 +5,11 @@ import { getERC20Tokens } from '../utils/getTokens'
 import { Flex, Box, Text, Heading } from '@chakra-ui/react'
 import TokenList from './Token/TokenList';
 
-const Wallet: React.FC = ({ walletParam }: any) => {
+interface WalletProps {
+  walletParam: any;
+}
+
+const Wallet = ({ walletParam }: WalletProps) => {
   const [walletId, setWalletId] = useState<string>("");
   const [ensAddress, setEnsAddress] = useState<string>();
   const [ethBalance, setEthBalance] = useState<string>("-");
