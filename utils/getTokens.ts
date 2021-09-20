@@ -8,7 +8,7 @@ export const getERC20Tokens = async (address: string) => {
       Accept: "application/json",
     },
   });  
-  const url = `https://api.ethplorer.io/getAddressInfo/${address}?apiKey=${process.env.ETHPLORER_KEY}`;
+  const url = `https://api.ethplorer.io/getAddressInfo/${address}?apiKey=EK-kkrrq-shyR7A3-WqNjh`; // Terrible? I know. Will replace this with envs. 
   const data = await api.get(url);
   const eth = get(data, "data.ETH", null);
   const erc20s = get(data, "data.tokens", []);
