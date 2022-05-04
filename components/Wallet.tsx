@@ -6,6 +6,7 @@ import { Stack, HStack, Box, Image, Heading, Text } from '@chakra-ui/react'
 import TokenList from './Token/TokenList';
 import { truncateAddress } from '../utils/general';
 import router from 'next/router';
+import Resolution from '@unstoppabledomains/resolution'
 
 interface WalletHeaderItemProps {
   label: string;
@@ -27,13 +28,13 @@ const WalletHeaderItem = ({ label, value }: WalletHeaderItemProps) => (
 
 interface WalletHeaderProps {
   walletId: string;
-  ensAddress: string | undefined;
+  domainAddress: string | undefined;
   ethBalance: string;
 }
 
 const WalletHeader = ({
   walletId,
-  ensAddress,
+  domainAddress,
   ethBalance,
 }: WalletHeaderProps) => (
   <Stack spacing='8' alignItems='center' justify='center' direction={['column', 'column', 'row', 'row', 'row']}>
@@ -43,8 +44,8 @@ const WalletHeader = ({
       value={truncateAddress(walletId)}
     />
      <WalletHeaderItem 
-      label='ENS'
-      value={ensAddress ? ensAddress : "—"}
+      label='ENS / UD'
+      value={domainAddress ? domainAddress : "—"}
     />
      <WalletHeaderItem 
       label='BALANCE'
@@ -59,10 +60,21 @@ interface WalletProps {
 
 const Wallet = ({ walletParam }: WalletProps) => {
   const [walletId, setWalletId] = useState<string>("");
-  const [ensAddress, setEnsAddress] = useState<string>();
+  const [domainAddress, setDomainAddress] = useState<string>();
   const [ethBalance, setEthBalance] = useState<string>("-");
   const [ethPrice, setEthPrice] = useState(0);
   const [tokens, setTokens] = useState<Array<object>>();
+
+  // Unstoppable Domains resolution
+  const udResolution = new Resolution();
+  const resolveUD = (domain: string, currency: string = 'ETH') => {
+    udResolution
+      .addr(domain, currency)
+      .then((udAddress: string) => {
+        setDomainAddress(domain)
+        setWalletId(udAddress);
+      })
+  }
 
   useEffect(() => {
     const getWeb3 = async () => {
@@ -75,12 +87,16 @@ const Wallet = ({ walletParam }: WalletProps) => {
         setWalletId(walletParam);
         addressParam = walletParam;
         const ensAddr = await provider.lookupAddress(addressParam);
-        setEnsAddress(ensAddr);
+        setDomainAddress(ensAddr);
+      } else if (walletParam.includes('.crypto') || walletParam.includes('.nft') || walletParam.includes('.x') ||
+      walletParam.includes('.wallet') || walletParam.includes('.zil') || walletParam.includes('.bitcoin') ||
+      walletParam.includes('.dao') || walletParam.includes('.888') || walletParam.includes('.coin')) {
+        resolveUD(walletParam, 'ETH');
       } else {
         addressParam = walletParam + ".eth";
         const walletAddress = await provider.resolveName(addressParam);
         setWalletId(walletAddress);
-        setEnsAddress(addressParam);
+        setDomainAddress(addressParam);
       }
     };
     getWeb3();
@@ -102,10 +118,10 @@ const Wallet = ({ walletParam }: WalletProps) => {
   return (
     <Box py='24'>
       <Head>
-        <title>{ensAddress || "ethfolio"}</title>
+        <title>{domainAddress || "ethfolio"}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="twitter:title" content={ensAddress || "ethfolio"} />
-        <meta property="og:title" content={ensAddress || "ethfolio"} />
+        <meta name="twitter:title" content={domainAddress || "ethfolio"} />
+        <meta property="og:title" content={domainAddress || "ethfolio"} />
       </Head>
       <Stack 
         direction='column'
@@ -121,7 +137,7 @@ const Wallet = ({ walletParam }: WalletProps) => {
           onClick={() => router.push('./')}
           cursor='pointer'
         />
-        <WalletHeader walletId={walletId} ethBalance={ethBalance} ensAddress={ensAddress} />
+        <WalletHeader walletId={walletId} ethBalance={ethBalance} domainAddress={domainAddress} />
       </Stack> 
       <Heading fontSize='5xl' fontWeight='extrabold' textAlign='center' py='8'>Tokens</Heading>
       <TokenList

@@ -55,7 +55,7 @@ const Home: NextPage = () => {
           fontSize='lg' 
           fontWeight='normal'
           focusBorderColor='#8299F8'
-          placeholder='address / ens'
+          placeholder='address / ens / unstoppable domains'
           value={address}
           onChange={(e) => {
             setAddress(e.target.value);
